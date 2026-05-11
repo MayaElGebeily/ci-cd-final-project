@@ -1,0 +1,34 @@
+apiVersion: tekton.dev/v1
+kind: Task
+metadata:
+  annotations:
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"tekton.dev/v1beta1","kind":"Task","metadata":{"annotations":{},"name":"nose","namespace":"sn-labs-popov9vvp8"},"spec":{"params":[{"default":"-v","description":"Arguments to pass to nose","name":"args","type":"string"}],"steps":[{"image":"python:3.9-slim","name":"nosetests","script":"#!/bin/bash\nset -e\n\npython -m pip install --upgrade pip wheel\npip install -r requirements.txt\n\nnosetests $(params.args)\n","workingDir":"$(workspaces.source.path)"}],"workspaces":[{"name":"source"}]}}
+  creationTimestamp: "2026-05-11T20:52:15Z"
+  generation: 1
+  name: nose
+  namespace: sn-labs-popov9vvp8
+  resourceVersion: "2802499218"
+  uid: 8ea5edca-1887-45ba-83f1-dc8a4bf5ce91
+spec:
+  params:
+  - default: -v
+    description: Arguments to pass to nose
+    name: args
+    type: string
+  steps:
+  - computeResources: {}
+    image: python:3.9-slim
+    name: nosetests
+    script: |
+      #!/bin/bash
+      set -e
+
+      python -m pip install --upgrade pip wheel
+      pip install nose
+
+       nosetests $(params.args)
+    workingDir: $(workspaces.source.path)
+  workspaces:
+
+  - name: source
